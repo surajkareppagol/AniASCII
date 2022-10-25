@@ -1,40 +1,10 @@
 #include <stdio.h>
-#define MAX 100
-
-void drawBoxRight(int, int, char art[][MAX]);
-void drawBoxUp(int, int, char art[][MAX]);
-void drawBoxDown(int, int, char art[][MAX]);
-void drawBoxDiagonalRight(int, int, char art[][MAX]);
-void drawBoxDiagonalLeft(int, int, char art[][MAX]);
-void animateBox(int *, char art[][MAX], int, int);
+#define MAX 60
 
 static int forword = 0;
 static int forwordD = 0;
 static int backword = 20;
 static int backwordD = 20;
-
-int main()
-{
-  // char artBox[MAX][MAX] = {
-  //     {"--------------\0"},
-  //     {"|  --------  |\0"},
-  //     {"|  |         |\0"},
-  //     {"|  --------  |\0"},
-  //     {"|         |  |\0"},
-  //     {"|  --------  |\0"},
-  //     {"--------------\0"}};
-  char artBox[MAX][MAX] = {
-      {"    ______    "},
-      {" /|_||_\\`.__  "},
-      {"(   _    _ _\\ "},
-      {"=`-(_)--(_)-' "}};
-  int choice = 0;
-  printf("1. Draw Forword  2. Draw Backword  3. Draw Up 4. Draw Down 5. Draw Diagonal Right 6. Draw Diagonal Left\n");
-  printf("ENTER THE CHOICE : ");
-  scanf("%d", &choice);
-  animateBox(&choice, artBox, 4, 15);
-  return 0;
-}
 
 ///////////////////// BOX ONE
 void drawBoxRight(int arrCols, int arrRows, char art[MAX][MAX])
