@@ -1,34 +1,43 @@
 #include <stdio.h>
+#define MAX 100
 
-void drawBoxRight(int, int, char art[][12]);
-void drawBoxUp(int, int, char art[][12]);
-void drawBoxDown(int, int, char art[][12]);
-void drawBoxDiagonalRight(int, int, char art[][12]);
-void drawBoxDiagonalLeft(int, int, char art[][12]);
-void animateBox(int *, char art[][12]);
+void drawBoxRight(int, int, char art[][MAX]);
+void drawBoxUp(int, int, char art[][MAX]);
+void drawBoxDown(int, int, char art[][MAX]);
+void drawBoxDiagonalRight(int, int, char art[][MAX]);
+void drawBoxDiagonalLeft(int, int, char art[][MAX]);
+void animateBox(int *, char art[][MAX], int, int);
 
 static int forword = 0;
 static int forwordD = 0;
-static int backword = 40;
-static int backwordD = 40;
+static int backword = 20;
+static int backwordD = 20;
 
 int main()
 {
-  char artBox[4][12] = {
-      {"----------"},
-      {"|        |"},
-      {"|        |"},
-      {"----------"}};
+  // char artBox[MAX][MAX] = {
+  //     {"--------------\0"},
+  //     {"|  --------  |\0"},
+  //     {"|  |         |\0"},
+  //     {"|  --------  |\0"},
+  //     {"|         |  |\0"},
+  //     {"|  --------  |\0"},
+  //     {"--------------\0"}};
+  char artBox[MAX][MAX] = {
+      {"    ______    "},
+      {" /|_||_\\`.__  "},
+      {"(   _    _ _\\ "},
+      {"=`-(_)--(_)-' "}};
   int choice = 0;
   printf("1. Draw Forword  2. Draw Backword  3. Draw Up 4. Draw Down 5. Draw Diagonal Right 6. Draw Diagonal Left\n");
   printf("ENTER THE CHOICE : ");
   scanf("%d", &choice);
-  animateBox(&choice, artBox);
+  animateBox(&choice, artBox, 4, 15);
   return 0;
 }
 
 ///////////////////// BOX ONE
-void drawBoxRight(int arrCols, int arrRows, char art[4][12])
+void drawBoxRight(int arrCols, int arrRows, char art[MAX][MAX])
 {
   int i, j;
   for (i = 0; i < arrCols; i++)
@@ -42,7 +51,7 @@ void drawBoxRight(int arrCols, int arrRows, char art[4][12])
 /////////////////////
 
 ///////////////////// BOX TWO
-void drawBoxLeft(int arrCols, int arrRows, char art[4][12])
+void drawBoxLeft(int arrCols, int arrRows, char art[MAX][MAX])
 {
   int i, j;
   for (i = 0; i < arrCols; i++)
@@ -56,7 +65,7 @@ void drawBoxLeft(int arrCols, int arrRows, char art[4][12])
 /////////////////////
 
 ///////////////////// BOX THREE
-void drawBoxUp(int arrCols, int arrRows, char art[4][12])
+void drawBoxUp(int arrCols, int arrRows, char art[MAX][MAX])
 {
   int i, j;
   for (i = 0; i < forword; i++)
@@ -70,7 +79,7 @@ void drawBoxUp(int arrCols, int arrRows, char art[4][12])
 /////////////////////
 
 ///////////////////// BOX FOUR
-void drawBoxDown(int arrCols, int arrRows, char art[4][12])
+void drawBoxDown(int arrCols, int arrRows, char art[MAX][MAX])
 {
   int i, j;
   for (i = backword; i > 0; i--)
@@ -84,10 +93,10 @@ void drawBoxDown(int arrCols, int arrRows, char art[4][12])
 /////////////////////
 
 ///////////////////// BOX FIVE
-void drawBoxDiagonalRight(int arrCols, int arrRows, char art[4][12])
+void drawBoxDiagonalRight(int arrCols, int arrRows, char art[MAX][MAX])
 {
   int i, j;
-  drawBoxRight(4, 4, art);
+  drawBoxRight(arrCols, arrRows, art);
   for (j = 0; j < forwordD; j++)
     printf("\n");
   forwordD++;
@@ -95,17 +104,17 @@ void drawBoxDiagonalRight(int arrCols, int arrRows, char art[4][12])
 /////////////////////
 
 ///////////////////// BOX SIX
-void drawBoxDiagonalLeft(int arrCols, int arrRows, char art[4][12])
+void drawBoxDiagonalLeft(int arrCols, int arrRows, char art[MAX][MAX])
 {
   int i, j;
-  drawBoxLeft(4, 4, art);
+  drawBoxLeft(arrCols, arrRows, art);
   for (j = backwordD; j > 0; j--)
     printf("\n");
   backwordD--;
 }
 /////////////////////
 
-void animateBox(int *choice, char artboxes[4][12])
+void animateBox(int *choice, char artboxes[MAX][MAX], int arrCols, int arrRows)
 {
   int i, j, k;
   for (i = 0; i < 100; i++)
@@ -113,22 +122,22 @@ void animateBox(int *choice, char artboxes[4][12])
     switch (*choice)
     {
     case 1:
-      drawBoxRight(4, 4, artboxes);
+      drawBoxRight(arrCols, arrRows, artboxes);
       break;
     case 2:
-      drawBoxLeft(4, 4, artboxes);
+      drawBoxLeft(arrCols, arrRows, artboxes);
       break;
     case 3:
-      drawBoxUp(4, 4, artboxes);
+      drawBoxUp(arrCols, arrRows, artboxes);
       break;
     case 4:
-      drawBoxDown(4, 4, artboxes);
+      drawBoxDown(arrCols, arrRows, artboxes);
       break;
     case 5:
-      drawBoxDiagonalRight(4, 4, artboxes);
+      drawBoxDiagonalRight(arrCols, arrRows, artboxes);
       break;
     case 6:
-      drawBoxDiagonalLeft(4, 4, artboxes);
+      drawBoxDiagonalLeft(arrCols, arrRows, artboxes);
       break;
     }
     for (k = 0; k < 90000000; k++)
