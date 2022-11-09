@@ -5,68 +5,129 @@ static int forword = 0;
 static int forwordD = 0;
 static int backword = 20;
 static int backwordD = 20;
+int turn = 0;
 
 ///////////////////// BOX ONE
-void drawBoxRight(int arrCols, int arrRows, char art[MAX][MAX])
+void drawRight(int arrCols, int arrRows, char artOne[MAX][MAX], char artTwo[MAX][MAX])
 {
   int i, j;
-  for (i = 0; i < arrCols; i++)
+  if (!turn)
   {
-    for (j = 0; j < forword; j++)
-      printf(" ");
-    printf("%s\n", art[i]);
+    for (i = 0; i < arrCols; i++)
+    {
+      for (j = 0; j < forword; j++)
+        printf(" ");
+      printf("%s\n", artOne[i]);
+    }
+    forword++;
+    turn = 1;
   }
-  forword++;
+  else if (turn)
+  {
+    for (i = 0; i < arrCols; i++)
+    {
+      for (j = 0; j < forword; j++)
+        printf(" ");
+      printf("%s\n", artTwo[i]);
+    }
+    forword++;
+    turn = 0;
+  }
 }
 /////////////////////
 
 ///////////////////// BOX TWO
-void drawBoxLeft(int arrCols, int arrRows, char art[MAX][MAX])
+void drawLeft(int arrCols, int arrRows, char artOne[][MAX], char artTwo[][MAX])
 {
   int i, j;
-  for (i = 0; i < arrCols; i++)
+  if (!turn)
   {
-    for (j = backword; j > 0; j--)
-      printf(" ");
-    printf("%s\n", art[i]);
+    for (i = 0; i < arrCols; i++)
+    {
+      for (j = backword; j > 0; j--)
+        printf(" ");
+      printf("%s\n", artOne[i]);
+    }
+    backword--;
+    turn = 1;
   }
-  backword--;
+  else if (turn)
+  {
+    for (i = 0; i < arrCols; i++)
+    {
+      for (j = backword; j > 0; j--)
+        printf(" ");
+      printf("%s\n", artTwo[i]);
+    }
+    backword--;
+    turn = 0;
+  }
 }
 /////////////////////
 
 ///////////////////// BOX THREE
-void drawBoxUp(int arrCols, int arrRows, char art[MAX][MAX])
+void drawUp(int arrCols, int arrRows, char artOne[][MAX], char artTwo[][MAX])
 {
   int i, j;
-  for (i = 0; i < forword; i++)
-    printf("\n");
-  for (j = 0; j < arrCols; j++)
-    printf("%s\n", art[j]);
-  for (i = 0; i < forword; i++)
-    printf("\n");
-  forword++;
+  if (!turn)
+  {
+    for (i = 0; i < forword; i++)
+      printf("\n");
+    for (j = 0; j < arrCols; j++)
+      printf("%s\n", artOne[j]);
+    for (i = 0; i < forword; i++)
+      printf("\n");
+    forword++;
+    turn = 1;
+  }
+  else if (turn)
+  {
+    for (i = 0; i < forword; i++)
+      printf("\n");
+    for (j = 0; j < arrCols; j++)
+      printf("%s\n", artTwo[j]);
+    for (i = 0; i < forword; i++)
+      printf("\n");
+    forword++;
+    turn = 1;
+  }
 }
 /////////////////////
 
 ///////////////////// BOX FOUR
-void drawBoxDown(int arrCols, int arrRows, char art[MAX][MAX])
+void drawDown(int arrCols, int arrRows, char artOne[][MAX], char artTwo[][MAX])
 {
   int i, j;
-  for (i = backword; i > 0; i--)
-    printf("\n");
-  for (j = 0; j < arrCols; j++)
-    printf("%s\n", art[j]);
-  for (i = backword; i > 0; i--)
-    printf("\n");
-  backword--;
+  if (!turn)
+  {
+    for (i = backword; i > 0; i--)
+      printf("\n");
+    for (j = 0; j < arrCols; j++)
+      printf("%s\n", artOne[j]);
+    for (i = backword; i > 0; i--)
+      printf("\n");
+    backword--;
+    turn = 1;
+  }
+  else if (turn)
+  {
+    for (i = backword; i > 0; i--)
+      printf("\n");
+    for (j = 0; j < arrCols; j++)
+      printf("%s\n", artOne[j]);
+    for (i = backword; i > 0; i--)
+      printf("\n");
+    backword--;
+    turn = 0;
+  }
 }
 /////////////////////
 
 ///////////////////// BOX FIVE
-void drawBoxDiagonalRight(int arrCols, int arrRows, char art[MAX][MAX])
+void drawDiagonalRight(int arrCols, int arrRows, char artOne[MAX][MAX], char artTwo[MAX][MAX])
 {
   int i, j;
-  drawBoxRight(arrCols, arrRows, art);
+  drawRight(arrCols, arrRows, artOne, artTwo);
   for (j = 0; j < forwordD; j++)
     printf("\n");
   forwordD++;
@@ -74,17 +135,17 @@ void drawBoxDiagonalRight(int arrCols, int arrRows, char art[MAX][MAX])
 /////////////////////
 
 ///////////////////// BOX SIX
-void drawBoxDiagonalLeft(int arrCols, int arrRows, char art[MAX][MAX])
+void drawDiagonalLeft(int arrCols, int arrRows, char artOne[][MAX], char artTwo[][MAX])
 {
   int i, j;
-  drawBoxLeft(arrCols, arrRows, art);
+  drawLeft(arrCols, arrRows, artOne, artTwo);
   for (j = backwordD; j > 0; j--)
     printf("\n");
   backwordD--;
 }
 /////////////////////
 
-void animateBox(int *choice, char artboxes[MAX][MAX], int arrCols, int arrRows)
+void animate(int *choice, char artOne[MAX][MAX], char artTwo[MAX][MAX], int arrCols, int arrRows)
 {
   int i, j, k;
   for (i = 0; i < 100; i++)
@@ -92,22 +153,22 @@ void animateBox(int *choice, char artboxes[MAX][MAX], int arrCols, int arrRows)
     switch (*choice)
     {
     case 1:
-      drawBoxRight(arrCols, arrRows, artboxes);
+      drawRight(arrCols, arrRows, artOne, artTwo);
       break;
     case 2:
-      drawBoxLeft(arrCols, arrRows, artboxes);
+      drawLeft(arrCols, arrRows, artOne, artTwo);
       break;
     case 3:
-      drawBoxUp(arrCols, arrRows, artboxes);
+      drawUp(arrCols, arrRows, artOne, artTwo);
       break;
     case 4:
-      drawBoxDown(arrCols, arrRows, artboxes);
+      drawDown(arrCols, arrRows, artOne, artTwo);
       break;
     case 5:
-      drawBoxDiagonalRight(arrCols, arrRows, artboxes);
+      drawDiagonalRight(arrCols, arrRows, artOne, artTwo);
       break;
     case 6:
-      drawBoxDiagonalLeft(arrCols, arrRows, artboxes);
+      drawDiagonalLeft(arrCols, arrRows, artOne, artTwo);
       break;
     }
     for (k = 0; k < 90000000; k++)
