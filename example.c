@@ -19,6 +19,6 @@ int main()
   printf("| 1.Forward | 2.Backward | 3.Upward | 4.Downward | 5.Diagonal Right | 6.Diagonal Left |\n");
   printf("ENTER THE CHOICE : ");
   scanf("%d", &choice);
-  animate(&choice, artOne, artTwo, 4, 15);
+  animate(&choice, artOne, artTwo, 4, 15, 100, 'h');
   return 0;
 }
