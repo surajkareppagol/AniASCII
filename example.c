@@ -16,7 +16,7 @@ int main()
       {"(          _\\ "},
       {"=`-<->--<->-' "}};
   int choice = 0;
-  printf("1. Draw Forword  2. Draw Backword  3. Draw Up 4. Draw Down 5. Draw Diagonal Right 6. Draw Diagonal Left\n");
+  printf("| 1.Forward | 2.Backward | 3.Upward | 4.Downward | 5.Diagonal Right | 6.Diagonal Left |\n");
   printf("ENTER THE CHOICE : ");
   scanf("%d", &choice);
   animate(&choice, artOne, artTwo, 4, 15);
