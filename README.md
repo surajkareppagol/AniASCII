@@ -16,3 +16,5 @@ make clean # to remove all binary files
 ```
 
 Check out the video on [YOUTUBE 🔗🔗](https://www.youtube.com/watch?v=VaIm3Gz-rxA).
+
+![animation in c](/animationInC.gif)

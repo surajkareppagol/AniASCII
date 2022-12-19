@@ -1,5 +1,7 @@
 #define MAX 60
 
+void colorPrint(char color[MAX]);
+void colorReset();
 void drawRight(int, int, char artOne[][MAX], char artTwo[][MAX]);
 void drawUp(int, int, char artOne[][MAX], char artTwo[][MAX]);
 void drawDown(int, int, char artOne[][MAX], char artTwo[][MAX]);

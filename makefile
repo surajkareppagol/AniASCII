@@ -13,3 +13,4 @@ run:
 
 clean:
 	@rm *.o a.out
+	@echo "Cleaned all files."

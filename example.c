@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "aniascii.h"
 #define MAX 60
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
 
 int main()
 {
@@ -19,6 +21,8 @@ int main()
   printf("| 1.Forward | 2.Backward | 3.Upward | 4.Downward | 5.Diagonal Right | 6.Diagonal Left |\n");
   printf("ENTER THE CHOICE : ");
   scanf("%d", &choice);
-  animate(&choice, artOne, artTwo, 4, 15, 100, 'h');
+  colorPrint(GREEN);
+  animate(&choice, artOne, artTwo, 4, 15, 100, 'm');
+  colorReset();
   return 0;
 }
