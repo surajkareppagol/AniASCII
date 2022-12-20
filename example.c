@@ -1,8 +1,5 @@
 #include <stdio.h>
 #include "aniascii.h"
-#define MAX 60
-#define RED "\033[0;31m"
-#define GREEN "\033[0;32m"
 
 int main()
 {
@@ -23,6 +20,6 @@ int main()
   scanf("%d", &choice);
   colorPrint(GREEN);
   animate(&choice, artOne, artTwo, 4, 15, 100, 'm');
-  colorReset();
+  // colorReset();
   return 0;
 }

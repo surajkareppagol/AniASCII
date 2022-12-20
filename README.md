@@ -7,7 +7,7 @@ To use check out the `example.c` function.There are 6 animation styles forward, 
 To execute it first `cd` to the directory and run the following command,
 
 ```bash
-make
+make # to build a executable
 make run # to run the program
 ```
 

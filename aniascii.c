@@ -8,11 +8,13 @@ static int backward = 20;
 static int backwardD = 20;
 int turn = 0;
 
-void colorPrint(char color[MAX])
+// Print color.
+void colorPrint(char *color)
 {
   printf("%s", color);
 }
 
+// Reset color.
 void colorReset()
 {
   printf("\033[0m");
