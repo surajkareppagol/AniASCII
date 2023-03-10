@@ -114,17 +114,9 @@ void drawDiagonalLeft(int arrRows, int arrCols, char artOne[][MAX], char artTwo[
 // animate() function, it should be called from main()
 // It accepts the animation choice, two ascii arts, Number of columns and rows,
 // time to stop animation, animation speed
-void animate(int *choice, char artOne[MAX][MAX], char artTwo[MAX][MAX], int arrRows, int arrCols, int stopAnimationAfter, char animationSpeed)
+void animate(int *choice, char artOne[MAX][MAX], char artTwo[MAX][MAX], int arrRows, int arrCols, int stopAnimationAfter, int animationSpeed)
 {
-  int i, j, k, speed;
-  if (tolower(animationSpeed) == 'l')
-    speed = 100000000;
-  else if (tolower(animationSpeed) == 'm')
-    speed = 40000000;
-  else if (tolower(animationSpeed) == 'h')
-    speed = 10000000;
-  else
-    speed = 100000000;
+  int i, j, k;
   for (i = 0; i < stopAnimationAfter; i++)
   {
     switch (*choice)
@@ -148,7 +140,7 @@ void animate(int *choice, char artOne[MAX][MAX], char artTwo[MAX][MAX], int arrR
       drawDiagonalLeft(arrRows, arrCols, artOne, artTwo);
       break;
     }
-    for (k = 0; k < speed; k++)
+    for (k = 0; k < animationSpeed; k++)
       ;
     for (j = 0; j < 50; j++)
       printf("\n");

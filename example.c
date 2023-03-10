@@ -19,7 +19,7 @@ int main()
   printf("ENTER THE CHOICE : ");
   scanf("%d", &choice);
   colorPrint(GREEN);
-  animate(&choice, artOne, artTwo, 4, 15, 100, 'm');
+  animate(&choice, artOne, artTwo, 4, 15, 100, MEDIUM);
   // colorReset();
   return 0;
 }
