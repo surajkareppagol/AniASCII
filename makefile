@@ -1,16 +1,17 @@
-all: exe-target
-CC := gcc
+CC = gcc
+CCFLAGS = -Wall -Werror -std=c17
+SRCS = aniascii.c example.c
+ICNS = aniascii.h
 
-exe-target:
-	@echo "Building the executable..." 
-	@${CC} -c aniascii.c
-	@${CC} -c example.c
-	@${CC} aniascii.o example.o
-	@echo "Done."
+example: $(SRCS) $(INCS)
+	@$(CC) $(SRCS) -o example $(CCFLAGS)
+	@echo "Build Done, run \"make run\" to execute."
 
-run:
-	@./a.out
-
+.PHONY: clean
 clean:
-	@rm *.o a.out
-	@echo "Cleaned all files."
+	rm example
+	@echo "Cleaning Done."
+
+.PHONY: run
+run:
+	@clear && ./example

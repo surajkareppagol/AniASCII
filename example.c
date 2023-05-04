@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include "aniascii.h"
 
+/*********************************************
+ *  Main Function
+ *********************************************/
+
 int main()
 {
   char artOne[MAX][MAX] = {
@@ -18,8 +22,6 @@ int main()
   printf("| 1.Forward | 2.Backward | 3.Upward | 4.Downward | 5.Diagonal Right | 6.Diagonal Left |\n");
   printf("ENTER THE CHOICE : ");
   scanf("%d", &choice);
-  colorPrint(GREEN);
-  animate(&choice, artOne, artTwo, 4, 15, 100, MEDIUM);
-  // colorReset();
+  animateAscii(&choice, artOne, artTwo, 4, 15, 100, MEDIUM, GREEN);
   return 0;
 }
