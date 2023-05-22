@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <ctype.h>
-#define MAX 60
+#define RESET "\033[0m"
 
 static int forward = 0;
-static int forwardD = 0;
+static int forwardDiagonal = 0;
 static int backward = 20;
 static int backwardD = 20;
 int turn = 0, i, j;
@@ -12,9 +12,9 @@ int turn = 0, i, j;
  *  Animation Main Function
  *********************************************/
 
-void drawRight(int arrRows, int arrCols, char artOne[][MAX], char artTwo[][MAX])
+void drawRight(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
 {
-  for (i = 0; i < arrRows; i++)
+  for (i = 0; i < *rows; i++)
   {
     for (j = 0; j < forward; j++)
       printf(" ");
@@ -27,9 +27,9 @@ void drawRight(int arrRows, int arrCols, char artOne[][MAX], char artTwo[][MAX])
   (turn == 0) ? (turn = 1) : (turn = 0);
 }
 
-void drawLeft(int arrRows, int arrCols, char artOne[][MAX], char artTwo[][MAX])
+void drawLeft(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
 {
-  for (i = 0; i < arrRows; i++)
+  for (i = 0; i < *rows; i++)
   {
     for (j = backward; j > 0; j--)
       printf(" ");
@@ -42,11 +42,11 @@ void drawLeft(int arrRows, int arrCols, char artOne[][MAX], char artTwo[][MAX])
   (turn == 0) ? (turn = 1) : (turn = 0);
 }
 
-void drawUp(int arrRows, int arrCols, char artOne[][MAX], char artTwo[][MAX])
+void drawUp(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
 {
   for (i = 0; i < forward; i++)
     printf("\n");
-  for (j = 0; j < arrRows; j++)
+  for (j = 0; j < *rows; j++)
     if (!turn)
       printf("%s\n", artOne[j]);
     else
@@ -57,11 +57,11 @@ void drawUp(int arrRows, int arrCols, char artOne[][MAX], char artTwo[][MAX])
   (turn == 0) ? (turn = 1) : (turn = 0);
 }
 
-void drawDown(int arrRows, int arrCols, char artOne[][MAX], char artTwo[][MAX])
+void drawDown(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
 {
   for (i = backward; i > 0; i--)
     printf("\n");
-  for (j = 0; j < arrRows; j++)
+  for (j = 0; j < *rows; j++)
     if (!turn)
       printf("%s\n", artOne[j]);
     else
@@ -72,19 +72,19 @@ void drawDown(int arrRows, int arrCols, char artOne[][MAX], char artTwo[][MAX])
   (turn == 0) ? (turn = 1) : (turn = 0);
 }
 
-void drawDiagonalRight(int arrRows, int arrCols, char artOne[MAX][MAX], char artTwo[MAX][MAX])
+void drawDiagonalRight(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
 {
   int j;
-  drawRight(arrRows, arrRows, artOne, artTwo);
-  for (j = 0; j < forwardD; j++)
+  drawRight(rows, columns, artOne, artTwo);
+  for (j = 0; j < forwardDiagonal; j++)
     printf("\n");
-  forwardD++;
+  forwardDiagonal++;
 }
 
-void drawDiagonalLeft(int arrRows, int arrCols, char artOne[][MAX], char artTwo[][MAX])
+void drawDiagonalLeft(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
 {
   int j;
-  drawLeft(arrRows, arrRows, artOne, artTwo);
+  drawLeft(rows, columns, artOne, artTwo);
   for (j = backwardD; j > 0; j--)
     printf("\n");
   backwardD--;
@@ -94,7 +94,7 @@ void drawDiagonalLeft(int arrRows, int arrCols, char artOne[][MAX], char artTwo[
  *  API - Ascii Animation
  *********************************************/
 
-void animateAscii(int *choice, char artOne[MAX][MAX], char artTwo[MAX][MAX], int arrRows, int arrCols, int stopAnimationAfter, int animationSpeed, char *color)
+void animateAscii(int *choice, int *rows, int *columns, int stopAnimationAfter, int animationSpeed, char (*artOne)[*columns], char (*artTwo)[*columns], char *color)
 {
   printf("%s", color);
   int i, j, k;
@@ -103,22 +103,22 @@ void animateAscii(int *choice, char artOne[MAX][MAX], char artTwo[MAX][MAX], int
     switch (*choice)
     {
     case 1:
-      drawRight(arrRows, arrCols, artOne, artTwo);
+      drawRight(rows, columns, artOne, artTwo);
       break;
     case 2:
-      drawLeft(arrRows, arrCols, artOne, artTwo);
+      drawLeft(rows, columns, artOne, artTwo);
       break;
     case 3:
-      drawUp(arrRows, arrCols, artOne, artTwo);
+      drawUp(rows, columns, artOne, artTwo);
       break;
     case 4:
-      drawDown(arrRows, arrCols, artOne, artTwo);
+      drawDown(rows, columns, artOne, artTwo);
       break;
     case 5:
-      drawDiagonalRight(arrRows, arrCols, artOne, artTwo);
+      drawDiagonalRight(rows, columns, artOne, artTwo);
       break;
     case 6:
-      drawDiagonalLeft(arrRows, arrCols, artOne, artTwo);
+      drawDiagonalLeft(rows, columns, artOne, artTwo);
       break;
     }
     for (k = 0; k < animationSpeed; k++)
@@ -126,7 +126,7 @@ void animateAscii(int *choice, char artOne[MAX][MAX], char artTwo[MAX][MAX], int
     for (j = 0; j < 50; j++)
       printf("\n");
   }
-  printf("\033[0m");
+  printf(RESET);
 }
 
 /*********************************************
