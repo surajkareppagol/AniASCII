@@ -13,7 +13,7 @@ make clean
 
 Check out the video on [YOUTUBE 🔗🔗](https://www.youtube.com/watch?v=VaIm3Gz-rxA).
 
-![animation in c](/res/animationInC.gif)
+![animation in c](/assets/animationInC.gif)
 
 ## How to use it?
 
