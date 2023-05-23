@@ -13,17 +13,28 @@ make clean
 
 Check out the video on [YOUTUBE 🔗🔗](https://www.youtube.com/watch?v=VaIm3Gz-rxA).
 
-![animation in c](/assets/animationInC.gif)
+![animation in c](/assets/animation_in_c.gif)
 
 ## How to use it?
 
 There is a single function `animateAscii()`, the parameters are as follows,
 
-- `Choice Of animation` of type `int`, type of animation,
-- `First Art` of type `2D array`,
-- `Second Art` of type `2D array`,
-- `Rows` of type `int`, the number of rows in the art,
-- `Columns` of type `int`, the number of columns in the art,
-- `A Value at which the animation stops` of type `int`, it is not related to type but to the loop,
-- `Speed` of type `macro`, the available options are `FAST`, `MEDIUM` and `SLOW`,
-- `Color` of type `macro`, the available options are `RED` and `GREEN`.
+```c
+animateAscii(&choice, &rows, &columns, artOne, artTwo, 100, 10);
+```
+
+- `Choice Of animation` is a pointer pointing to `int` type,
+- `Rows` is a pointer pointing to `int` type, the number of rows in the art,
+- `Columns` is a pointer pointing to `int` type, the number of columns in the art,
+- `First Art` is a pointer pointing to `2D array`,
+- `Second Art` is a pointer pointing to `2D array`,
+- `Speed` of type `int`, i.e 1000 = 1s,
+- `column gap` of type `int`
+
+To set color use `setColor()` function before calling the `animateAscii()`,
+
+`setColor()` takes two macro parameters which are defined by `ncurses` library.
+
+```c
+setColor(COLOR_BLUE, COLOR_WHITE);
+```
