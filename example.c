@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ncurses.h>
 #include "aniascii.h"
 
 /*********************************************
@@ -7,6 +8,7 @@
 
 int main()
 {
+  initscr();
   int rows = 4, columns = 16;
   char artOne[][16] = {
       {"  ______       "},
@@ -19,10 +21,19 @@ int main()
       {" /|_||_\\`.__  "},
       {"(          _\\ "},
       {"=`-<->--<->-'  "}};
+
+  setColor(COLOR_WHITE, COLOR_BLACK);
+
   int choice = 0;
-  printf("| 1.Forward | 2.Backward | 3.Upward | 4.Downward | 5.Diagonal Right | 6.Diagonal Left |\n");
-  printf("ENTER THE CHOICE : ");
-  scanf("%d", &choice);
-  animateAscii(&choice, &rows, &columns, 100, FAST, artOne, artTwo, WHITE);
+  printw("| 1.Forward | 2.Backward | 3.Upward | 4.Downward | 5.Diagonal Right | 6.Diagonal Left |\n");
+  printw("ENTER THE CHOICE : ");
+  scanw("%d", &choice);
+  clear();
+  refresh();
+  animateAscii(&choice, &rows, &columns, artOne, artTwo, 100, 10);
   return 0;
 }
+
+/*********************************************
+ *  EOF
+ *********************************************/

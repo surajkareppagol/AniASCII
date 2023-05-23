@@ -1,132 +1,156 @@
-#include <stdio.h>
 #include <ctype.h>
-#define RESET "\033[0m"
+#include <ncurses.h>
+#include "stdio.h"
+
+int turn = 0, i, j;
+int termRows = 0, termColumns = 0;
+int artRows = 0, artColumns = 0;
+int changeColumnPosition = 0;
 
 static int forward = 0;
-static int forwardDiagonal = 0;
-static int backward = 20;
-static int backwardD = 20;
-int turn = 0, i, j;
+static int backward = 0;
+
+/*********************************************
+ *  Utility Function
+ *********************************************/
+
+void cleanUp(int timeInMs)
+{
+  napms(timeInMs);
+  clear();
+  refresh();
+}
+
+void setColor(short foreground, short background)
+{
+  if (!has_colors())
+    printw("Terminal doesn't support colors.");
+  start_color();
+  init_pair(1, foreground, background);
+  bkgd(COLOR_PAIR(1));
+}
 
 /*********************************************
  *  Animation Main Function
  *********************************************/
 
-void drawRight(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
+void drawForward(int columns, char (*artOne)[columns], char (*artTwo)[columns])
 {
-  for (i = 0; i < *rows; i++)
+  for (i = 0; i < artRows; i++)
   {
     for (j = 0; j < forward; j++)
-      printf(" ");
+      printw(" ");
     if (!turn)
-      printf("%s\n", artOne[i]);
+      printw("%s\n", artOne[i]);
     else
-      printf("%s\n", artTwo[i]);
+      printw("%s\n", artTwo[i]);
   }
+  refresh();
   forward++;
-  (turn == 0) ? (turn = 1) : (turn = 0);
+  turn = !turn;
 }
 
-void drawLeft(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
+void drawBackward(int columns, char (*artOne)[columns], char (*artTwo)[columns])
 {
-  for (i = 0; i < *rows; i++)
+  for (i = 0; i < artRows; i++)
   {
     for (j = backward; j > 0; j--)
-      printf(" ");
+      printw(" ");
     if (!turn)
-      printf("%s\n", artOne[i]);
+      printw("%s\n", artOne[i]);
     else
-      printf("%s\n", artTwo[i]);
+      printw("%s\n", artTwo[i]);
   }
+  refresh();
   backward--;
-  (turn == 0) ? (turn = 1) : (turn = 0);
+  turn = !turn;
 }
 
-void drawUp(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
+void drawUpDownAndDiagonal(int columns, char (*artOne)[columns], char (*artTwo)[columns], int rowPosition, int columnPosition)
 {
-  for (i = 0; i < forward; i++)
-    printf("\n");
-  for (j = 0; j < *rows; j++)
+  for (j = 0; j < artRows; j++)
+  {
+    move(rowPosition++, columnPosition);
     if (!turn)
-      printf("%s\n", artOne[j]);
+      printw("%s\n", artOne[j]);
     else
-      printf("%s\n", artTwo[j]);
-  for (i = 0; i < forward; i++)
-    printf("\n");
+      printw("%s\n", artTwo[j]);
+  }
+  refresh();
   forward++;
-  (turn == 0) ? (turn = 1) : (turn = 0);
-}
-
-void drawDown(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
-{
-  for (i = backward; i > 0; i--)
-    printf("\n");
-  for (j = 0; j < *rows; j++)
-    if (!turn)
-      printf("%s\n", artOne[j]);
-    else
-      printf("%s\n", artTwo[j]);
-  for (i = backward; i > 0; i--)
-    printf("\n");
-  backward--;
-  (turn == 0) ? (turn = 1) : (turn = 0);
-}
-
-void drawDiagonalRight(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
-{
-  int j;
-  drawRight(rows, columns, artOne, artTwo);
-  for (j = 0; j < forwardDiagonal; j++)
-    printf("\n");
-  forwardDiagonal++;
-}
-
-void drawDiagonalLeft(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns])
-{
-  int j;
-  drawLeft(rows, columns, artOne, artTwo);
-  for (j = backwardD; j > 0; j--)
-    printf("\n");
-  backwardD--;
+  turn = !turn;
 }
 
 /*********************************************
  *  API - Ascii Animation
  *********************************************/
 
-void animateAscii(int *choice, int *rows, int *columns, int stopAnimationAfter, int animationSpeed, char (*artOne)[*columns], char (*artTwo)[*columns], char *color)
+void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns], int animationSpeed, int columnGap)
 {
-  printf("%s", color);
-  int i, j, k;
-  for (i = 0; i < stopAnimationAfter; i++)
+  attron(COLOR_PAIR(1));
+  getmaxyx(stdscr, termRows, termColumns);
+
+  backward = termColumns - *columns;
+  artRows = *rows;
+  artColumns = *columns;
+  changeColumnPosition = columnGap;
+
+  if (*choice == 1)
   {
-    switch (*choice)
+    while (forward != termColumns + 1 - artColumns)
     {
-    case 1:
-      drawRight(rows, columns, artOne, artTwo);
-      break;
-    case 2:
-      drawLeft(rows, columns, artOne, artTwo);
-      break;
-    case 3:
-      drawUp(rows, columns, artOne, artTwo);
-      break;
-    case 4:
-      drawDown(rows, columns, artOne, artTwo);
-      break;
-    case 5:
-      drawDiagonalRight(rows, columns, artOne, artTwo);
-      break;
-    case 6:
-      drawDiagonalLeft(rows, columns, artOne, artTwo);
-      break;
+      drawForward(artColumns, artOne, artTwo);
+      cleanUp(animationSpeed);
     }
-    for (k = 0; k < animationSpeed; k++)
-      ;
-    for (j = 0; j < 50; j++)
-      printf("\n");
   }
-  printf(RESET);
+
+  if (*choice == 2)
+  {
+    while (backward != 0)
+    {
+      drawBackward(artColumns, artOne, artTwo);
+      cleanUp(animationSpeed);
+    }
+  }
+
+  if (*choice == 3)
+  {
+    for (i = termRows - artRows - 1; i > 0; i--)
+    {
+      drawUpDownAndDiagonal(artColumns, artOne, artTwo, i, columnGap);
+      cleanUp(animationSpeed);
+    }
+  }
+
+  if (*choice == 4)
+  {
+    for (i = 0; i < termRows - artRows; i++)
+    {
+      drawUpDownAndDiagonal(artColumns, artOne, artTwo, i, columnGap);
+      cleanUp(animationSpeed);
+    }
+  }
+
+  if (*choice == 5)
+  {
+    for (i = termRows - artRows - 1; i > 0; i--)
+    {
+      drawUpDownAndDiagonal(artColumns, artOne, artTwo, i, changeColumnPosition++);
+      cleanUp(animationSpeed);
+    }
+  }
+
+  if (*choice == 6)
+  {
+    for (i = 0; i < termRows - artRows; i++)
+    {
+      drawUpDownAndDiagonal(artColumns, artOne, artTwo, i, changeColumnPosition++);
+      cleanUp(animationSpeed);
+    }
+  }
+
+  attroff(COLOR_PAIR(1));
+  endwin();
 }
 
 /*********************************************

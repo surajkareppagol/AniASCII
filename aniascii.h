@@ -5,38 +5,26 @@
 #ifndef _ANIASCII_H_
 #define _ANIASCII_H_
 
-#define SLOW 80000000
-#define MEDIUM 40000000
-#define FAST 20000000
-
 /*********************************************
- *  ANSI COLOR CODES
+ *  Utility Functions
  *********************************************/
 
-#define BLACK "\e[0;30m"
-#define RED "\e[0;31m"
-#define GREEN "\e[0;32m"
-#define YELLOW "\e[0;33m"
-#define BLUE "\e[0;34m"
-#define PURPLE "\e[0;35m"
-#define CYAN "\e[0;36m"
-#define WHITE "\e[0;37m"
+void cleanUp(int timeInMs);
+void setColor(short foreground, short background);
 
 /*********************************************
  *  Animation Main Function
  *********************************************/
 
-void drawRight(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns]);
-void drawUp(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns]);
-void drawDown(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns]);
-void drawDiagonalRight(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns]);
-void drawDiagonalLeft(int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns]);
+void drawRight(int columns, char (*artOne)[columns], char (*artTwo)[columns]);
+void drawLeft(int columns, char (*artOne)[columns], char (*artTwo)[columns]);
+void drawUpDownAndDiagonal(int columns, char (*artOne)[columns], char (*artTwo)[columns], int rowPosition, int columnPosition);
 
 /*********************************************
  *  API - Ascii Animation
  *********************************************/
 
-void animateAscii(int *, int *rows, int *columns, int, int, char (*artOne)[*columns], char (*artTwo)[*columns], char *);
+void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns], int animationSpeed, int columnGap);
 
 #endif
 
