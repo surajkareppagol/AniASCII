@@ -1,14 +1,11 @@
 #include <ctype.h>
 #include <ncurses.h>
-#include "stdio.h"
 
 int turn = 0, i, j;
 int termRows = 0, termColumns = 0;
 int artRows = 0, artColumns = 0;
 int changeColumnPosition = 0;
-
-static int forward = 0;
-static int backward = 0;
+int counter = 0;
 
 /*********************************************
  *  Utility Function
@@ -34,39 +31,7 @@ void setColor(short foreground, short background)
  *  Animation Main Function
  *********************************************/
 
-void drawForward(int columns, char (*artOne)[columns], char (*artTwo)[columns])
-{
-  for (i = 0; i < artRows; i++)
-  {
-    for (j = 0; j < forward; j++)
-      printw(" ");
-    if (!turn)
-      printw("%s\n", artOne[i]);
-    else
-      printw("%s\n", artTwo[i]);
-  }
-  refresh();
-  forward++;
-  turn = !turn;
-}
-
-void drawBackward(int columns, char (*artOne)[columns], char (*artTwo)[columns])
-{
-  for (i = 0; i < artRows; i++)
-  {
-    for (j = backward; j > 0; j--)
-      printw(" ");
-    if (!turn)
-      printw("%s\n", artOne[i]);
-    else
-      printw("%s\n", artTwo[i]);
-  }
-  refresh();
-  backward--;
-  turn = !turn;
-}
-
-void drawUpDownAndDiagonal(int columns, char (*artOne)[columns], char (*artTwo)[columns], int rowPosition, int columnPosition)
+void draw(int columns, char (*artOne)[columns], char (*artTwo)[columns], int rowPosition, int columnPosition)
 {
   for (j = 0; j < artRows; j++)
   {
@@ -77,7 +42,6 @@ void drawUpDownAndDiagonal(int columns, char (*artOne)[columns], char (*artTwo)[
       printw("%s\n", artTwo[j]);
   }
   refresh();
-  forward++;
   turn = !turn;
 }
 
@@ -85,30 +49,42 @@ void drawUpDownAndDiagonal(int columns, char (*artOne)[columns], char (*artTwo)[
  *  API - Ascii Animation
  *********************************************/
 
-void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns], int animationSpeed, int columnGap)
+void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns], int animationSpeed, int columnGap,
+                  int rowPosition, int columnPosition)
 {
   attron(COLOR_PAIR(1));
   getmaxyx(stdscr, termRows, termColumns);
 
-  backward = termColumns - *columns;
+  if (*choice == 2)
+  {
+    counter = termColumns - *columns;
+    if (columnPosition != -1)
+      counter = columnPosition;
+  }
+
   artRows = *rows;
   artColumns = *columns;
   changeColumnPosition = columnGap;
 
   if (*choice == 1)
   {
-    while (forward != termColumns + 1 - artColumns)
+    int stopAt = termColumns + 1 - artColumns - columnPosition;
+    while (counter != stopAt)
     {
-      drawForward(artColumns, artOne, artTwo);
+      move(rowPosition, columnPosition++);
+      draw(artColumns, artOne, artTwo, rowPosition, columnPosition);
+      counter++;
       cleanUp(animationSpeed);
     }
   }
 
   if (*choice == 2)
   {
-    while (backward != 0)
+    while (counter != 0)
     {
-      drawBackward(artColumns, artOne, artTwo);
+      move(rowPosition, columnPosition--);
+      draw(artColumns, artOne, artTwo, rowPosition, columnPosition);
+      counter--;
       cleanUp(animationSpeed);
     }
   }
@@ -117,7 +93,7 @@ void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns]
   {
     for (i = termRows - artRows - 1; i > 0; i--)
     {
-      drawUpDownAndDiagonal(artColumns, artOne, artTwo, i, columnGap);
+      draw(artColumns, artOne, artTwo, i, columnGap);
       cleanUp(animationSpeed);
     }
   }
@@ -126,7 +102,7 @@ void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns]
   {
     for (i = 0; i < termRows - artRows; i++)
     {
-      drawUpDownAndDiagonal(artColumns, artOne, artTwo, i, columnGap);
+      draw(artColumns, artOne, artTwo, i, columnGap);
       cleanUp(animationSpeed);
     }
   }
@@ -135,7 +111,7 @@ void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns]
   {
     for (i = termRows - artRows - 1; i > 0; i--)
     {
-      drawUpDownAndDiagonal(artColumns, artOne, artTwo, i, changeColumnPosition++);
+      draw(artColumns, artOne, artTwo, i, changeColumnPosition++);
       cleanUp(animationSpeed);
     }
   }
@@ -144,7 +120,7 @@ void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns]
   {
     for (i = 0; i < termRows - artRows; i++)
     {
-      drawUpDownAndDiagonal(artColumns, artOne, artTwo, i, changeColumnPosition++);
+      draw(artColumns, artOne, artTwo, i, changeColumnPosition++);
       cleanUp(animationSpeed);
     }
   }

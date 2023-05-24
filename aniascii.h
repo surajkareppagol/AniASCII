@@ -16,15 +16,13 @@ void setColor(short foreground, short background);
  *  Animation Main Function
  *********************************************/
 
-void drawRight(int columns, char (*artOne)[columns], char (*artTwo)[columns]);
-void drawLeft(int columns, char (*artOne)[columns], char (*artTwo)[columns]);
-void drawUpDownAndDiagonal(int columns, char (*artOne)[columns], char (*artTwo)[columns], int rowPosition, int columnPosition);
+void draw(int columns, char (*artOne)[columns], char (*artTwo)[columns], int rowPosition, int columnPosition);
 
 /*********************************************
  *  API - Ascii Animation
  *********************************************/
 
-void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns], int animationSpeed, int columnGap);
+void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns], int animationSpeed, int columnGap, int rowPosition, int columnPosition);
 
 #endif
 
