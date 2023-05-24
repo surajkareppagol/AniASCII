@@ -1,17 +1,20 @@
 CC = gcc
 CCFLAGS = -Wall -Werror -std=c17
-SRCS = aniascii.c example.c
+SRCS = aniascii.c
 ICNS = aniascii.h
 
-example: $(SRCS) $(INCS)
-	@$(CC) $(SRCS) -o example $(CCFLAGS) -lncurses
+aniascii.o: $(SRCS) $(INCS)
+	@$(CC) -c $(SRCS) -o aniascii.o $(CCFLAGS)
 	@echo "Build process done, run \"make run\" to execute."
+
+.PHONY: build
+build:
+	@ar crs libaniascii.a aniascii.o
+	@sudo mkdir -p /opt/aniascii/
+	@sudo mv libaniascii.a /opt/aniascii/
+	@echo "Library has been generated use \"-laniascii\"."
 
 .PHONY: clean
 clean:
-	@rm example
+	@rm *.o
 	@echo "Object files have been removed."
-
-.PHONY: run
-run:
-	@clear && ./example
