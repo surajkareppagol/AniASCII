@@ -30,7 +30,7 @@ int main()
   scanw("%d", &choice);
   clear();
   refresh();
-  animateAscii(&choice, &rows, &columns, artOne, artTwo, 100, 10);
+  animateAscii(&choice, &rows, &columns, artOne, artTwo, 60, 10, 4, 40);
   return 0;
 }
 
