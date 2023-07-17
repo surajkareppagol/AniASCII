@@ -1,3 +1,7 @@
+/**************************************/
+/* aniascii.c */
+/**************************************/
+
 #include <ctype.h>
 #include <ncurses.h>
 
@@ -7,9 +11,9 @@ int artRows = 0, artColumns = 0;
 int changeColumnPosition = 0;
 int counter = 0;
 
-/*********************************************
- *  Utility Function
- *********************************************/
+/**************************************/
+/* Utility functions */
+/**************************************/
 
 void cleanUp(int timeInMs)
 {
@@ -27,9 +31,9 @@ void setColor(short foreground, short background)
   bkgd(COLOR_PAIR(1));
 }
 
-/*********************************************
- *  Animation Main Function
- *********************************************/
+/**************************************/
+/* Main draw function */
+/**************************************/
 
 void draw(int columns, char (*artOne)[columns], char (*artTwo)[columns], int rowPosition, int columnPosition)
 {
@@ -45,9 +49,9 @@ void draw(int columns, char (*artOne)[columns], char (*artTwo)[columns], int row
   turn = !turn;
 }
 
-/*********************************************
- *  API - Ascii Animation
- *********************************************/
+/**************************************/
+/* Public interface */
+/**************************************/
 
 void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns], char (*artTwo)[*columns], int animationSpeed, int columnGap,
                   int rowPosition, int columnPosition)
@@ -129,6 +133,6 @@ void animateAscii(int *choice, int *rows, int *columns, char (*artOne)[*columns]
   endwin();
 }
 
-/*********************************************
- *  EOF
- *********************************************/
+/**************************************/
+/* EOF */
+/**************************************/
