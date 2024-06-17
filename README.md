@@ -2,6 +2,12 @@
 
 `ANIASCII` is a c library for animation of `ascii` arts.Try the `example.c` first `cd` ( change directory ) to `animation_in_c` and execute the following commands,
 
+Check out the video on [YOUTUBE 🔗🔗](https://www.youtube.com/watch?v=VaIm3Gz-rxA).
+
+![animation in c](https://raw.githubusercontent.com/surajkareppagol/Assets/main/1%20-%20AniASCII/ANIASCII.gif)
+
+---
+
 ```bash
 make
 make run
@@ -10,10 +16,6 @@ make run
 ```bash
 make clean
 ```
-
-Check out the video on [YOUTUBE 🔗🔗](https://www.youtube.com/watch?v=VaIm3Gz-rxA).
-
-![animation in c](/assets/animation_in_c.gif)
 
 ## How to use it?
 
